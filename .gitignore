@@ -1,0 +1,28 @@
+Library/
+Temp/
+Obj/
+Build/
+Logs/
+UserSettings/
+ .vs/
+*.csproj
+*.sln
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ogs/
+[Uu]serSettings/
+.vs/
+
+# Unity / Visual Studio files
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+
+# Builds
+*.apk
+*.unitypackage
+.vsconfig
