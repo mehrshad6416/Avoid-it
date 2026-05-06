@@ -154,7 +154,7 @@ Transform:
   m_LocalScale: {x: 20, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 450218055}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &92674646
 BoxCollider:
@@ -245,8 +245,8 @@ Transform:
   m_LocalPosition: {x: 500, y: 500, z: 500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1550015245}
   - {fileID: 92674645}
+  - {fileID: 1550015245}
   - {fileID: 1546793370}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -476,7 +476,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &1546793372
 MonoBehaviour:
@@ -492,6 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 7
+  playerCamera: {fileID: 0}
 --- !u!136 &1546793373
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ GameObject:
   - component: {fileID: 1550015245}
   - component: {fileID: 1550015247}
   - component: {fileID: 1550015246}
+  - component: {fileID: 1550015248}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -580,13 +582,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550015244}
-  m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 12.714936, y: 1.0064259, z: 0.530571}
+  m_LocalRotation: {x: 0.26672927, y: 0.44037747, z: -0.13885047, w: 0.8459573}
+  m_LocalPosition: {x: -1.2850647, y: 2.5064392, z: 4.5305786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 450218055}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 35, y: 55, z: 0}
 --- !u!81 &1550015246
 AudioListener:
   m_ObjectHideFlags: 0
@@ -638,3 +640,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1550015248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550015244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15620ad47c076144b6dcb67a2e73b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1546793370}
+  offset: {x: -10, y: 10, z: -10}
+  smoothSpeed: 5
