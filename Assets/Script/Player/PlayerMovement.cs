@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 7f;
     private Rigidbody rb;
     private bool isGrounded;
+    public static bool resate = false;
 
     public Camera playerCamera;  // دوربین رو در Inspector به Main Camera وصل کن
 
@@ -46,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RESTART();
+        }
     }
 
     void OnCollisionStay(Collision collision)
@@ -58,5 +64,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = false;
+    }
+    void RESTART()
+    {
+        Time.timeScale = 1f;
+        resate = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
