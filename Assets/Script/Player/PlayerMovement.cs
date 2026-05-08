@@ -7,48 +7,46 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 7f;
     private Rigidbody rb;
     private bool isGrounded;
-   
 
-    public Camera playerCamera;  // دوربین رو در Inspector به Main Camera وصل کن
+    public Camera playerCamera;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // اگر دوربین رو در Inspector نزاشتی، خودکار پیدا کن
         if (playerCamera == null)
             playerCamera = Camera.main;
+
+        // ✅ مهم: فعال کردن اینترپلیشن برای نرمی حرکت فیزیک
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
     {
-        // گرفتن ورودی
+        // فقط پرش رو توی Update نگه دار (برای دریافت دقیق Input)
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    void FixedUpdate()  // ✅ حرکت رو از Update به FixedUpdate منتقل کن
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        // گرفتن جهت دوربین (نادیده گرفتن زاویه عمودی برای حرکت افقی صاف)
         Vector3 cameraForward = playerCamera.transform.forward;
         Vector3 cameraRight = playerCamera.transform.right;
 
-        // صفر کردن ارتفاع برای حرکت روی زمین
         cameraForward.y = 0;
         cameraRight.y = 0;
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        // محاسبه حرکت نسبت به دوربین
         Vector3 moveDirection = (cameraForward * vertical + cameraRight * horizontal);
         Vector3 move = moveDirection * moveSpeed;
 
-        // اعمال سرعت (حفظ سرعت عمودی برای فیزیک پرش)
+        // تنظیم سرعت در FixedUpdate برای هماهنگی با فیزیک
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-
-        // پرش
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-       
     }
 
     void OnCollisionStay(Collision collision)
@@ -62,5 +60,4 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
             isGrounded = false;
     }
-    
 }
