@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 7f;
     private Rigidbody rb;
     private bool isGrounded;
-
     public Camera playerCamera;
 
     void Start()
@@ -15,21 +13,18 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (playerCamera == null)
             playerCamera = Camera.main;
-
-        // ✅ مهم: فعال کردن اینترپلیشن برای نرمی حرکت فیزیک
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Update()
     {
-        // فقط پرش رو توی Update نگه دار (برای دریافت دقیق Input)
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && IsGroundedCheck())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-    void FixedUpdate()  // ✅ حرکت رو از Update به FixedUpdate منتقل کن
+    void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -44,20 +39,24 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDirection = (cameraForward * vertical + cameraRight * horizontal);
         Vector3 move = moveDirection * moveSpeed;
-
-        // تنظیم سرعت در FixedUpdate برای هماهنگی با فیزیک
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
     }
 
-    void OnCollisionStay(Collision collision)
+    bool IsGroundedCheck()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = true;
-    }
+        // روش ساده: یه کپسول زیر پلیر چک کن
+        float extraHeight = 0.1f;
+        RaycastHit hit;
 
-    void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = false;
+        // یه پرتو از پایین پلیر به پایین
+        Vector3 rayStart = transform.position + Vector3.down * 0.5f;
+
+        if (Physics.Raycast(rayStart, Vector3.down, out hit, 0.2f))
+        {
+            Debug.Log("برخورد با: " + hit.collider.gameObject.name);
+            return true;
+        }
+
+        return false;
     }
 }
